@@ -126,8 +126,8 @@ public:
 
     struct IPointerEventHandler {
         virtual ~IPointerEventHandler() { }
-        virtual void PointerButton(const uint8_t button, const uint16_t state, const uint16_t x, const uint16_t y, const uint32_t modifiers) = 0;
-        virtual void PointerPosition(const uint8_t button, const uint16_t state, const uint16_t x, const uint16_t y, const uint32_t modifiers) = 0;
+        virtual void PointerButton(const uint32_t button, const uint16_t state, const uint16_t x, const uint16_t y, const uint32_t modifiers) = 0;
+        virtual void PointerPosition(const uint32_t button, const uint16_t state, const uint16_t x, const uint16_t y, const uint32_t modifiers) = 0;
     };
 
     PointerHandler(IPointerEventHandler* callback)
@@ -142,7 +142,7 @@ public:
     void AddRef() const override { }
     uint32_t Release() const override { return (0); }
 
-    void Direct(const uint8_t button, const IPointer::state state) override;
+    void Direct(const uint32_t button, const IPointer::state state) override;
     void Direct(const uint16_t x, const uint16_t y) override;
 
 private:
@@ -227,8 +227,8 @@ private:
     virtual void Key(const bool pressed, uint32_t keycode, uint32_t unicode, uint32_t modifiers, uint32_t time) override;
     virtual void Key(const uint32_t key, const Compositor::IDisplay::IKeyboard::state action);
     virtual void WheelMotion(const int16_t horizontal, const int16_t vertical) override;
-    virtual void PointerButton(const uint8_t button, const uint16_t state, const uint16_t x, const uint16_t y, const uint32_t modifiers) override;
-    virtual void PointerPosition(const uint8_t button, const uint16_t state, const uint16_t x, const uint16_t y, const uint32_t modifiers) override;
+    virtual void PointerButton(const uint32_t button, const uint16_t state, const uint16_t x, const uint16_t y, const uint32_t modifiers) override;
+    virtual void PointerPosition(const uint32_t button, const uint16_t state, const uint16_t x, const uint16_t y, const uint32_t modifiers) override;
     virtual void Touch(const uint8_t index, const Compositor::IDisplay::ITouchPanel::state state, const uint16_t x, const uint16_t y) override;
 
 private:

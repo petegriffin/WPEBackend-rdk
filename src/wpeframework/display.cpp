@@ -181,7 +181,7 @@ void KeyboardHandler::HandleKeyEvent(const uint32_t key, const IKeyboard::state 
 // Pointer handling
 // -----------------------------------------------------------------------------------------
 
-/* virtual */  void PointerHandler::Direct(const uint8_t button, const IPointer::state state)
+/* virtual */  void PointerHandler::Direct(const uint32_t button, const IPointer::state state)
 {
     _button = (button + 1);
 
@@ -311,13 +311,13 @@ void Display::WheelMotion(const int16_t horizontal, const int16_t vertical)
     SendEvent(event);
 }
 
-void Display::PointerButton(const uint8_t button, const uint16_t state, const uint16_t x, const uint16_t y, const uint32_t modifiers)
+void Display::PointerButton(const uint32_t button, const uint16_t state, const uint16_t x, const uint16_t y, const uint32_t modifiers)
 {
     wpe_input_pointer_event event { wpe_input_pointer_event_type_button, TimeNow(), x, y, button, state, modifiers };
     SendEvent(event);
 }
 
-void Display::PointerPosition(const uint8_t button, const uint16_t state, const uint16_t x, const uint16_t y, const uint32_t modifiers)
+void Display::PointerPosition(const uint32_t button, const uint16_t state, const uint16_t x, const uint16_t y, const uint32_t modifiers)
 {
     wpe_input_pointer_event event = { wpe_input_pointer_event_type_motion, TimeNow(), x, y, button, state, modifiers };
     SendEvent(event);
