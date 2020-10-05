@@ -28,6 +28,7 @@ find_package(WPE REQUIRED)
 find_package(EGL REQUIRED)
 find_package(Libxkbcommon REQUIRED)
 find_package(GLIB 2.38.0 REQUIRED COMPONENTS gio gio-unix)
+find_package(WaylandScanner REQUIRED)
 
 if (USE_BACKEND_WESTEROS_MESA)
     add_definitions(-DWPE_BACKEND_MESA=1)
@@ -49,6 +50,10 @@ set(WPE_PLATFORM_LIBRARIES
         ${LIBXKBCOMMON_LIBRARIES}
         )
 
+set(WPE_GENERATED_SOURCES
+	${CMAKE_BINARY_DIR}/wpe-bridge-protocol.c
+)
+
 if (USE_VIRTUAL_KEYBOARD)
     find_package(WPEFrameworkVirtualInput REQUIRED)
     list(APPEND WPE_PLATFORM_LIBRARIES
@@ -60,6 +65,7 @@ endif()
 set(WPE_PLATFORM_EXTRA_CFLAGS)
 
 set(WPE_PLATFORM_SOURCES
+	${WPE_GENERATED_SOURCES}
         src/loader-impl.cpp
 
         src/util/ipc.cpp
@@ -146,3 +152,14 @@ add_custom_command(TARGET WPEBackend-rdk
         COMMAND ${CMAKE_COMMAND} -E create_symlink libWPEBackend-rdk.so ${CMAKE_BINARY_DIR}/libWPEBackend-default.so
         )
 install(FILES ${CMAKE_BINARY_DIR}/libWPEBackend-default.so DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
+
+add_custom_command(
+    OUTPUT ${CMAKE_BINARY_DIR}/wpe-bridge-protocol.c
+    OUTPUT ${CMAKE_BINARY_DIR}/wpe-bridge-client-protocol.h
+    OUTPUT ${CMAKE_BINARY_DIR}/wpe-bridge-server-protocol.h
+    DEPENDS ${CMAKE_SOURCE_DIR}/src/wayland/protocols/wpe-bridge.xml
+    COMMAND ${WAYLAND_SCANNER} ${WAYLAND_SCANNER_CODE_ARG} < ${CMAKE_SOURCE_DIR}/src/wayland/protocols/wpe-bridge.xml > ${CMAKE_BINARY_DIR}/wpe-bridge-protocol.c
+    COMMAND ${WAYLAND_SCANNER} client-header < ${CMAKE_SOURCE_DIR}/src/wayland/protocols/wpe-bridge.xml > ${CMAKE_BINARY_DIR}/wpe-bridge-client-protocol.h
+    COMMAND ${WAYLAND_SCANNER} server-header < ${CMAKE_SOURCE_DIR}/src/wayland/protocols/wpe-bridge.xml > ${CMAKE_BINARY_DIR}/wpe-bridge-server-protocol.h
+    VERBATIM
+)
