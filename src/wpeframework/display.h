@@ -194,8 +194,9 @@ public:
 	AXIS = 0x30,
 	POINTER,
 	TOUCH,
-    TOUCHSIMPLE,
-	KEYBOARD
+	TOUCHSIMPLE,
+	KEYBOARD,
+	REGISTERSURFACE,
     };
 
 public:
@@ -203,6 +204,8 @@ public:
     ~Display();
 
 public:
+    void RegisterSurface(Compositor::IDisplay::ISurface& surface);
+
    inline Compositor::IDisplay::ISurface* Create(const std::string& name, const uint32_t width, const uint32_t height) {
         Compositor::IDisplay::ISurface* newSurface = m_display->Create(name, width, height);
         if (newSurface != nullptr) {
@@ -222,6 +225,7 @@ public:
     void SendEvent(wpe_input_pointer_event& event);
     void SendEvent(wpe_input_touch_event& event);
     void SendEvent(wpe_input_touch_event_raw& event);
+
 
 private:
     virtual void Key(const bool pressed, uint32_t keycode, uint32_t unicode, uint32_t modifiers, uint32_t time) override;

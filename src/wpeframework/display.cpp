@@ -365,4 +365,27 @@ void Display::SendEvent(wpe_input_touch_event_raw& event)
     m_ipc.sendMessage(IPC::Message::data(message), IPC::Message::size);
 }
 
+void Display::RegisterSurface(Compositor::IDisplay::ISurface& surface)
+{
+    IPC::Message message;
+    message.messageCode = MsgType::REGISTERSURFACE;
+    std::memcpy(message.messageData, &surface, sizeof(surface));
+    m_ipc.sendMessage(IPC::Message::data(message), IPC::Message::size);
+}
+
 } // namespace WPEFramework
+
+extern "C" {
+
+__attribute__((visibility("default")))
+struct wpe_video_plane_display_dmabuf_source*
+wpe_display_get_surface(struct wpe_renderer_backend_egl* backend)
+{
+    auto* base = reinterpret_cast<struct wpe_renderer_backend_egl_base*>(backend);
+    auto* display = reinterpret_cast<WPEFramework::Compositor::IDisplay*>(base->interface_data);
+    //auto* display = *static_cast<WPEFramework::Compositor::IDisplay*>(base->interface_data);
+    //auto* impl = new Impl::DmaBuf(*static_cast<WS::BaseBackend*>(base->interface_data));
+    //return reinterpret_cast<struct wpe_video_plane_display_dmabuf_source*>(impl);
+}
+
+}
