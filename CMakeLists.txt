@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(WPEBackend-rdk)
 
+set(WPEBACKEND_RDK_API_VERSION 1.0)
+
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -fno-exceptions -fno-strict-aliasing")
@@ -162,4 +164,10 @@ add_custom_command(
     COMMAND ${WAYLAND_SCANNER} client-header < ${CMAKE_SOURCE_DIR}/src/wayland/protocols/wpe-bridge.xml > ${CMAKE_BINARY_DIR}/wpe-bridge-client-protocol.h
     COMMAND ${WAYLAND_SCANNER} server-header < ${CMAKE_SOURCE_DIR}/src/wayland/protocols/wpe-bridge.xml > ${CMAKE_BINARY_DIR}/wpe-bridge-server-protocol.h
     VERBATIM
+)
+
+configure_file(wpebackend-rdk.pc.in wpebackend-rdk-${WPEBACKEND_RDK_API_VERSION}.pc @ONLY)
+install(
+    FILES "${CMAKE_CURRENT_BINARY_DIR}/wpebackend-rdk-${WPEBACKEND_RDK_API_VERSION}.pc"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
 )
