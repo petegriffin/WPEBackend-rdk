@@ -36,6 +36,17 @@ struct wpe_view_backend;
 
 typedef struct _GSource GSource;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+  void wpe_display_get_surface(struct wpe_renderer_backend_egl*);
+#ifdef __cplusplus
+}
+#endif
+
+
+
+
 namespace WPEFramework {
 
 class KeyboardHandler : public Compositor::IDisplay::IKeyboard
