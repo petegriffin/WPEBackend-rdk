@@ -379,7 +379,7 @@ void Display::RegisterSurface(Compositor::IDisplay::ISurface& surface)
 extern "C" {
 
 __attribute__((visibility("default")))
-struct wpe_video_plane_display_dmabuf_source*
+void
 wpe_display_get_surface(struct wpe_renderer_backend_egl* backend)
 {
     auto* base = reinterpret_cast<struct wpe_renderer_backend_egl_base*>(backend);
