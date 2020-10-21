@@ -128,6 +128,16 @@ endif ()
 
 if (USE_BACKEND_WPEFRAMEWORK)
     include(src/wpeframework/CMakeLists.txt)
+
+    set(WPEBACKEND_RDK_PUBLIC_HEADERS
+        src/wpeframework/display.h
+    )
+
+    install(
+        FILES ${WPEBACKEND_RDK_PUBLIC_HEADERS}
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/wpe-rdk-${WPEBACKEND_RDK_API_VERSION}/wpe
+    )
+
 endif ()
 
 if (USE_BACKEND_WAYLAND_EGL)
@@ -154,6 +164,7 @@ add_custom_command(TARGET WPEBackend-rdk
         COMMAND ${CMAKE_COMMAND} -E create_symlink libWPEBackend-rdk.so ${CMAKE_BINARY_DIR}/libWPEBackend-default.so
         )
 install(FILES ${CMAKE_BINARY_DIR}/libWPEBackend-default.so DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
+
 
 add_custom_command(
     OUTPUT ${CMAKE_BINARY_DIR}/wpe-bridge-protocol.c
