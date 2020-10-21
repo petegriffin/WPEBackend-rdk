@@ -27,6 +27,7 @@
 #include "display.h"
 #include <cstring>
 #include <chrono>
+#include <wpe/wpe-egl.h>
 
 namespace WPEFramework {
 
