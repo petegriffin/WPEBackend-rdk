@@ -75,11 +75,13 @@ EGLTarget::EGLTarget(struct wpe_renderer_backend_egl_target* target, int hostFd)
 void EGLTarget::initialize(struct wpe_view_backend* backend, uint32_t width, uint32_t height)
 {
     surface = display.Create(DisplayName(), width, height);
+    fprintf(stderr, "%s:%d surface=%p display=%p\n", __FUNCTION__, __LINE__, surface, display);
     display.Backend(backend);
 }
 
 EGLTarget::~EGLTarget()
 {
+    fprintf(stderr, "%s:%d \n", __FUNCTION__, __LINE__);
     ipcClient.deinitialize();
     surface->Release();
 }
