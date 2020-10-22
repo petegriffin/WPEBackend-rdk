@@ -130,7 +130,7 @@ if (USE_BACKEND_WPEFRAMEWORK)
     include(src/wpeframework/CMakeLists.txt)
 
     set(WPEBACKEND_RDK_PUBLIC_HEADERS
-        src/wpeframework/display.h
+        src/wpeframework/compositorclient-get-surface.h
     )
 
     install(
