@@ -27,13 +27,11 @@
 #define __compositorclient_get_surface_h__
 
 #include <stdint.h>
+#include <wpe/wpe.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include <wpe/wpe.h>
-#include <compositor/Client.h>
   
 struct wpe_renderer_backend_egl;
 
