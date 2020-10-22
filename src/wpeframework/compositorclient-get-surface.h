@@ -35,7 +35,7 @@ extern "C" {
   
 struct wpe_renderer_backend_egl;
 
-void wpe_compositorclient_get_parent_surface(struct wpe_renderer_backend_egl*);
+void* wpe_compositorclient_get_parent_surface(struct wpe_renderer_backend_egl*);
 
 #ifdef __cplusplus
 }

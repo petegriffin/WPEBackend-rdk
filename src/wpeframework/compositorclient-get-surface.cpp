@@ -24,6 +24,7 @@
  */
 
 #include "compositorclient-get-surface.h"
+#include "display.h"
 #include <wpe/wpe-egl.h>
 #include <compositor/Client.h>
 #include <cstring>
@@ -33,14 +34,18 @@ namespace WPEFramework {
 extern "C" {
 
 __attribute__((visibility("default")))
-void wpe_compositorclient_get_parent_surface(struct wpe_renderer_backend_egl*)
+void* wpe_compositorclient_get_parent_surface(struct wpe_renderer_backend_egl* backend)
 {
+    void* surface;
     fprintf(stderr, "%s:%d\n", __FUNCTION__, __LINE__);
     auto* base = reinterpret_cast<struct wpe_renderer_backend_egl_base*>(backend);
     auto* display = reinterpret_cast<WPEFramework::Compositor::IDisplay*>(base->interface_data);
     fprintf(stderr, "%s:%d display=%p\n", __FUNCTION__, __LINE__, display);
-    display.LoadSurfaces();
-    return nullptr;
+    surface = display->GetNativeSurface(Compositor::IDisplay::SuggestedName());
+    fprintf(stderr, "%s:%d Surface=%p\n", __FUNCTION__, __LINE__, surface);
+    return surface;
+}
+
 }
 
 }
